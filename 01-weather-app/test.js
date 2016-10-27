@@ -4,7 +4,10 @@ var app = app || {};
 * MODELS
 **/
 app.Message = Backbone.Model.extend({  
-  url: 'http://api.openweathermap.org/data/2.5/weather?q=Taipei&APPID=2ab10d1d7c261f5cb373916cc1cf107f',
+  url: function() {
+  	return 'http://api.openweathermap.org/data/2.5/weather?q=' + this.city + '&APPID=2ab10d1d7c261f5cb373916cc1cf107f';
+  },
+  city: '',
   defaults: {
     main: {
         temp: -1,
@@ -23,14 +26,17 @@ app.MessageView = Backbone.View.extend({
 	el: '#app',
     // constructor
     initialize: function() {
-    	var self = this;
+    	var city = this.$el.data('city');
 
         this.model = new app.Message();
+        this.model.city = city;
+        this.model.set('city', city);
+
         this.template = _.template($('#weather-tmpl').html());
 
         this.model.fetch({
-			success: function(model, resp, options) {
-				self.render();
+			success: (model, resp, options) => {
+				this.render();
 			}
     	});
     },	
@@ -43,15 +49,15 @@ app.MessageView = Backbone.View.extend({
 	    // Date
 	    var date = moment().format('LL');
 	    this.model.set('date', date);
-	    
+
 	    var html = this.template(this.model.attributes);
-	    $('#app').html(html);
-	};    
+	    this.$el.html(html);
+	}   
 });
 
 
 $(document).ready(function(){
-
+	app.messageView = new app.MessageView();
 });
 
 

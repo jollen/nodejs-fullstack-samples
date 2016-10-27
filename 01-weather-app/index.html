@@ -21,7 +21,7 @@
 <script id='weather-tmpl' type='text/template'>
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-			<i class="wi-date"><%= date %></i>
+			<i class="wi-date"><%= date %><br /><%= city %></i>
 			<i class="wi wi-icon"></i>
 		</div>
 	</div>
@@ -37,9 +37,15 @@
 </script>
 
 <div class="container">
-	<div id="app">
+	<div id="app" data-city="Shenzhen">
 	</div>
 </div>
 
 </body>
 </html>
+
+
+
+
+
+
