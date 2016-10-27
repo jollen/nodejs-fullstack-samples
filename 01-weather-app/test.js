@@ -17,6 +17,17 @@ app.Message = Backbone.Model.extend({
 });
 
 /**
+* VIEWS
+**/
+app.MessageView = Backbone.View.extend({
+	el: '#app'
+});
+
+/**
+* VIEWS
+**/
+app.MessageView = Backbone.View.extend({
+/**
 * Control (Logic)
 **/
 
@@ -36,7 +47,7 @@ $(document).ready(function(){
 	    var html = template(message.attributes);
 	    $('#app').html(html);
 	};
-	
+
 	var template = _.template($('#weather-tmpl').html());
 
 	message.fetch({
