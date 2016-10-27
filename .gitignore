@@ -41,3 +41,6 @@ components/configs/*/*.conf
 config.*.json
 config.json
 config*json
+
+#
+node_modules
