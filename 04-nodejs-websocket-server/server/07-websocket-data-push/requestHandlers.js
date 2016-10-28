@@ -13,7 +13,7 @@ function start(response, query, clients) {
 function send(response, query, clients) {
     console.log("Handler 'send' is started.");
     console.log("Query string is: " + query);
-
+response.writeHead(200, {"Access-Control-Allow-Origin": "*"});
     var parsedstring = querystring.parse(query); 
 
     var obj = {

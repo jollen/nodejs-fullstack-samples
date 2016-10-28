@@ -12,6 +12,7 @@ function start(route, handlers) {
     route(pathname, handlers, response, query);
 
     response.writeHead(200, {"Content-Type": "text/plain"});
+    //response.writeHead(200, {"Access-Control-Allow-Origin": "*"});
     response.write("Hello World");
     response.end();
   }

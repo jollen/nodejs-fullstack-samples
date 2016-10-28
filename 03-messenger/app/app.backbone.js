@@ -9,14 +9,14 @@ var app = app || {};
 **/
 app.Message = Backbone.Model.extend({
     defaults: {
-        temp: 0
+        message: ''
     }
 });
 
 app.SubmitMessage = Backbone.Model.extend({
     // data source
     url: function() {
-        return 'http://192.168.10.6:8080/send?m=' + this.get('message');
+        return 'http://localhost:3000/posts?m=' + this.get('message');
     },
     defaults: {
         message: ''
@@ -40,7 +40,7 @@ app.MessageView = Backbone.View.extend({
     // Backbone delegation
     render: function() {
         var htmlCodes = this.template(this.model.attributes);
-        this.$el.find('#message').html(htmlCodes);
+        this.$el.find('#message').append(htmlCodes);
     },
     createWebSocket: function() {
         var div = this.$el.find('#message');
@@ -48,11 +48,11 @@ app.MessageView = Backbone.View.extend({
         
         function onWsMessage(message) {
             var obj = JSON.parse( message.data );
-           self.model.set('temp', obj.temp);      // model state is changed
+           self.model.set('message', obj.message);      // model state is changed
         }
         
          // Let us open a web socket
-         ws = new WebSocket("ws://192.168.10.6:8080/start", ['echo-protocol']);
+         ws = new WebSocket("ws://wot.city/object/jollen/viewer");
          ws.onopen = function()
          {
              div.append("<h2>Done</h2>");
@@ -64,6 +64,7 @@ app.MessageView = Backbone.View.extend({
          { 
             div.append("<h2>Closed</h2>");
          };
+         
          ws.onerror = function()
          { 
             div.html("<h1>error</h1>");
@@ -84,7 +85,11 @@ app.ActionView = Backbone.View.extend({
         var text = this.$el.find('#text').val();
         
         this.model.set('message', text);
-        this.model.save();
+        this.model.save({
+            success: function(model, response, options) {
+                console.log('[success] ' + response)
+            }
+        });
     }    
 });
 
