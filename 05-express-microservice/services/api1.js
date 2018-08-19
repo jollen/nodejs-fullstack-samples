@@ -53,10 +53,4 @@ router.post('/', function(req, res, next) {
 	});
 });
 
-router.get('/', function(req, res, next) {
-	memcached.get('data', function(err, data) {
-		res.send(data);
-	});
-});
-
 module.exports = router;
